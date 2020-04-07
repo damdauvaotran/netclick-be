@@ -19,14 +19,30 @@ const saltLength = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_LENGTH, 1
  *    description: create account
  *    produces:
  *      - application/json
+ *    parameters:
+ *      - in: body
+ *        name: body
+ *        required: true
+ *        schema:
+ *          type: object
+ *          required:
+ *          - username
+ *          - password
+ *          properties:
+ *            username:
+ *              type: string
+ *            password:
+ *              type: string
  *    responses:
  *      '200':
  *        description: OK
  *        schema:
  *          type: object
  *          properties:
+ *            success:
+ *              type: boolean
  *            token:
- *              type: String
+ *              type: string
  */
 
 router.post('/signup', [body('username').isString(), body('password')], async (req, res) => {
@@ -49,7 +65,7 @@ router.post('/signup', [body('username').isString(), body('password')], async (r
     });
     return buildRes(res, true, {});
   } catch (e) {
-    return buildRes(res, false, JSON.stringify(e));
+    return buildRes(res, false, e);
   }
 });
 

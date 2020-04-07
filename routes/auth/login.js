@@ -18,14 +18,30 @@ const router = express.Router();
  *    description: Return token
  *    produces:
  *      - application/json
+ *    parameters:
+ *      - in: body
+ *        name: body
+ *        required: true
+ *        schema:
+ *          type: object
+ *          required:
+ *          - username
+ *          - password
+ *          properties:
+ *            username:
+ *              type: string
+ *            password:
+ *              type: string
  *    responses:
  *      '200':
  *        description: OK
  *        schema:
  *          type: object
  *          properties:
+ *            success:
+ *              type: boolean
  *            token:
- *              type: String
+ *              type: string
  */
 
 router.post(
@@ -37,29 +53,36 @@ router.post(
       return buildRes(res, false, 'Invalid input');
     }
     const { username, password } = req.body;
-    const user = Users.findOne({
-      where: { username },
-    });
-    if (user === null) {
+
+    try {
+      const user = await Users.findOne({
+        where: { username },
+      });
+
+      if (user === null) {
+        return buildRes(res, false, 'Invalid login info');
+      }
+      const encryptedTruePassword = user.password;
+      const { salt } = user;
+      console.log(encryptedTruePassword);
+      const isPasswordCorrect = await bcrypt.compare(
+        password + salt,
+        encryptedTruePassword,
+      );
+
+      if (isPasswordCorrect) {
+        const token = jwt.sign(
+          { username, id: user.userId, r: user.role },
+          jwtPrivateKey,
+          { expiresIn: 8640000 },
+        ); // 100 days
+        return buildRes(res, true, { token });
+      }
       return buildRes(res, false, 'Invalid login info');
+    } catch (e) {
+      console.log(e);
+      buildRes(res, false, e.toString());
     }
-
-    const encryptedTruePassword = user.password;
-    const { salt } = user;
-    const isPasswordCorrect = await bcrypt.compare(
-      password + salt,
-      encryptedTruePassword,
-    );
-
-    if (isPasswordCorrect) {
-      const token = jwt.sign(
-        { username, id: user.userId, r: user.role },
-        jwtPrivateKey,
-        { expiresIn: 8640000 },
-      ); // 100 days
-      return buildRes(res, true, { token });
-    }
-    return buildRes(res, false, 'Invalid login info');
   },
 );
 

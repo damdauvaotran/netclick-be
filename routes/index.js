@@ -1,12 +1,12 @@
 const express = require('express');
 
 const router = express.Router();
-const todoRouter = require('./todo');
+const authRouter = require('./auth');
 
-router.use('/todo', todoRouter);
+router.use('/auth', authRouter);
 
 /* GET home page. */
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
   res.render('index', { title: 'Express' });
 });
 
