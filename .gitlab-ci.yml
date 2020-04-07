@@ -1,0 +1,46 @@
+image: 'node:12.13.1-buster'
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+  - node_modules
+
+before_script:
+  - npm ci --cache node_modules --prefer-offline
+
+# test:
+#   stage: test
+#   before_script:
+#     - npm install
+#   script:
+#     - node --version
+
+# ssh:
+#   stage: deploy
+#   script:
+#     - ssh root@$SERVER_IP
+
+install_env:
+  stage: deploy
+  before_script:
+    - apt-get update
+    - 'which ssh-agent || apt-get install openssh-client -y'
+    - 'which git || apt-get install -y git '
+    - 'which rsync || apt-get install -y rsync '
+
+    # ssh
+    - mkdir ~/.ssh
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - ssh-keyscan -H $SERVER_IP >> ~/.ssh/known_hosts
+  script:
+    # Install pm2
+    - ssh $SERVER_USER@$SERVER_IP "npm install -g pm2"
+    # Make folder
+    - ssh $SERVER_USER@$SERVER_IP "[ ! -e /root/$APP_NAME ] || rm -r /root/$APP_NAME; mkdir -p /root/$APP_NAME"
+    # Copy file
+    - rsync -zr ./* $SERVER_USER@$SERVER_IP:/root/$APP_NAME
+    # Delete app
+    # - ssh $SERVER_USER@$SERVER_IP "pm2 delete $APP_NAME"
+    # Start app
+    - ssh $SERVER_USER@$SERVER_IP "cd /root/$APP_NAME && npm install ;PORT=$APP_PORT pm2 restart index.js --name $APP_NAME"

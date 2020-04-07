@@ -1,0 +1,95 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Todo API",
+    "description": "API of simple todo list without auth",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/todo": {
+      "get": {
+        "summary": "Returns a list of todo.",
+        "description": "Get todo list",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "todoList": {
+                  "type": "array",
+                  "description": "todoList",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "content": {
+                        "type": "string"
+                      },
+                      "isDone": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": "5c100c2e-6afb-4b30-8393-0d383a39cb14",
+                      "content": "Hello world",
+                      "isDone": true
+                    },{
+                      "id": "5c100c2e-6afb-4b30-8393-0d383a3gcb14",
+                      "content": "Goodbye world",
+                      "isDone": true
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new todo item",
+        "description": "Optional extended description in Markdown.",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "status",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["content", "isDone"],
+              "properties": {
+                "content": {
+                  "type": "string"
+                },
+                "isDone": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of todo",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "Hello": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
