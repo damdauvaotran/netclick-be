@@ -8,7 +8,7 @@ const { Users } = require('../../models');
 const router = express.Router();
 
 const saltRounds = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS, 10) : 10;
-const saltLength = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS, 10) : 14;
+const saltLength = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_LENGTH, 10) : 14;
 
 /**
  * @swagger
