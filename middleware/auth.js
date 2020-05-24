@@ -1,16 +1,17 @@
 const jwt = require('jsonwebtoken');
-const { Users } = require('../models/sequelize');
+const { Users } = require('../models');
 const { role } = require('../constant');
 
 const jwtPrivateKey = process.env.PRIVATE_KEY_JWT || '!bE8JX7!owd!W67&XEU9kw2W';
-module.exports.validateStudent = async (req, res, next) => {
+module.exports.validateUser = async (req, res, next) => {
+  console.log('Full header', req.headers.authorization);
   const authToken = req.headers.authorization && req.headers.authorization.replace('Bearer ', '');
   try {
     // Keep try catch logic
     const decodedData = await jwt.verify(authToken, jwtPrivateKey);
     const { id } = decodedData;
     const requestUser = await Users.findOne({ where: { userId: id } });
-    if (requestUser.role >= role.STUDENT) {
+    if (requestUser) {
       next();
     } else {
       res.json({

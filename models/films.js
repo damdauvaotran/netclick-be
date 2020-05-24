@@ -1,36 +1,36 @@
-module.exports = (sequelize, type) => sequelize.define('users',
+module.exports = (sequelize, type) => sequelize.define('flims',
   {
-    userId: {
+    filmId: {
       type: type.BIGINT,
       primaryKey: true,
       allowNull: false,
       autoIncrement: true,
     },
-    username: {
-      type: type.STRING,
-      allowNull: false,
-    },
-    password: {
-      type: type.STRING,
-      allowNull: false,
-    },
-    salt: {
-      type: type.STRING,
-      allowNull: false,
-    },
-    // role: {
-    //   type: type.INTEGER,
-    //   allowNull: false,
-    // },
     name: {
       type: type.STRING,
       allowNull: true,
     },
+    description: {
+      type: type.STRING,
+      allowNull: true,
+    },
+    imdb: {
+      type: type.FLOAT,
+      allowNull: true,
+    },
+    epCount: {
+      type: type.INTEGER,
+      allowNull: false,
+    },
+    imgUri: {
+      type: type.STRING,
+      allowNull: false,
+    },
   },
   {
+    sequelize,
     underscored: true,
     timestamps: true,
-    sequelize,
     charset: 'utf8',
     collate: 'utf8_general_ci',
   });
@@ -39,15 +39,19 @@ module.exports = (sequelize, type) => sequelize.define('users',
  * @swagger
  *
  * definitions:
- *  User:
+ *  Film:
  *    type: object
  *    properties:
- *      userId:
- *        type: integer
- *      username:
- *        type: string
- *      role:
+ *      filmId:
  *        type: integer
  *      name:
+ *        type: string
+ *      description:
+ *        type: string
+ *      imdb:
+ *        type: float
+ *      epNum:
+ *        type: integer
+ *      imgUri:
  *        type: string
  */

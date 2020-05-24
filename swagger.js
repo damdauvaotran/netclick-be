@@ -11,6 +11,13 @@ const options = {
       title: 'Todo API',
       version: '1.0.0',
     },
+    securityDefinitions: {
+      Bearer: {
+        type: 'apiKey',
+        name: 'Authorization',
+        in: 'header',
+      },
+    },
   },
 };
 const specs = swaggerJsdoc(options);

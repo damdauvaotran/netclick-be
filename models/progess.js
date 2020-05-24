@@ -1,30 +1,14 @@
-module.exports = (sequelize, type) => sequelize.define('users',
+module.exports = (sequelize, type) => sequelize.define('progress',
   {
-    userId: {
+    progressId: {
       type: type.BIGINT,
       primaryKey: true,
       allowNull: false,
       autoIncrement: true,
     },
-    username: {
+    time: {
       type: type.STRING,
       allowNull: false,
-    },
-    password: {
-      type: type.STRING,
-      allowNull: false,
-    },
-    salt: {
-      type: type.STRING,
-      allowNull: false,
-    },
-    // role: {
-    //   type: type.INTEGER,
-    //   allowNull: false,
-    // },
-    name: {
-      type: type.STRING,
-      allowNull: true,
     },
   },
   {
