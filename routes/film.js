@@ -1,7 +1,8 @@
 const express = require('express');
+const { Op, col } = require('sequelize');
 
 const router = express.Router();
-const { validateUser } = require('../middleware/auth');
+const { validateUser, getUserIdByToken, getTokenByRequest } = require('../middleware/auth');
 const db = require('../models');
 const { buildRes } = require('../utils/response');
 
@@ -10,6 +11,8 @@ const { buildRes } = require('../utils/response');
  *
  * /film/{filmId}:
  *  get:
+ *    security:
+ *      - Bearer: []
  *    summary: get film by id
  *    description: Return film info
  *    produces:
@@ -32,17 +35,32 @@ const { buildRes } = require('../utils/response');
  *              $ref: '#/definitions/Film'
  */
 
-router.get('/:filmId', validateUser, async (req, res) => {
-  const { filmId } = req;
+router.get('/:filmId', async (req, res) => {
+  const { filmId } = req.params;
+  const token = getTokenByRequest(req);
+  const id = await getUserIdByToken(token);
   const filmInfo = await db.Films.findOne({
     where: {
       filmId,
     },
+    include: [{
+      model: db.Episodes,
+      // where: { filmId: col('films.film_id') },
+      include: [
+        {
+          model: db.Progress,
+          where: {
+            userId: id,
+          },
+        },
+      ],
+    }],
   });
   if (filmId) {
     buildRes(res, true, filmInfo);
+  } else {
+    buildRes(res, false, 'Film not found');
   }
-  buildRes(res, false, 'Film not found');
 });
 
 /**
@@ -54,6 +72,12 @@ router.get('/:filmId', validateUser, async (req, res) => {
  *      - Bearer: []
  *    summary: get all film
  *    description: Return film list
+ *    parameters:
+ *      - in: query
+ *        name: name
+ *        schema:
+ *          type: string
+ *        description: Name of the film
  *    produces:
  *      - application/json
  *    responses:
@@ -69,8 +93,14 @@ router.get('/:filmId', validateUser, async (req, res) => {
  */
 
 router.get('/', validateUser, async (req, res) => {
+  const name = req.params.name || '';
   console.log('film load');
   const filmList = await db.Films.findAll({
+    where: {
+      name: {
+        [Op.substring]: name,
+      },
+    },
   });
   if (filmList) {
     buildRes(res, true, filmList);

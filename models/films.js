@@ -7,23 +7,31 @@ module.exports = (sequelize, type) => sequelize.define('flims',
       autoIncrement: true,
     },
     name: {
-      type: type.STRING,
+      type: type.TEXT,
       allowNull: true,
     },
     description: {
-      type: type.STRING,
+      type: type.TEXT,
       allowNull: true,
     },
     imdb: {
       type: type.FLOAT,
       allowNull: true,
     },
+    year: {
+      type: type.INTEGER,
+      allowNull: true,
+    },
+    starring: {
+      type: type.TEXT,
+      allowNull: false,
+    },
     epCount: {
       type: type.INTEGER,
       allowNull: false,
     },
     imgUri: {
-      type: type.STRING,
+      type: type.TEXT,
       allowNull: false,
     },
   },
@@ -49,7 +57,11 @@ module.exports = (sequelize, type) => sequelize.define('flims',
  *      description:
  *        type: string
  *      imdb:
- *        type: float
+ *        type: number
+ *      year:
+ *        type: integer
+ *      starring:
+ *        type: string
  *      epNum:
  *        type: integer
  *      imgUri:

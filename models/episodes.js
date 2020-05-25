@@ -7,15 +7,20 @@ module.exports = (sequelize, type) => sequelize.define('episodes',
       autoIncrement: true,
     },
     name: {
-      type: type.STRING,
+      type: type.TEXT,
       allowNull: true,
     },
+    duration: {
+      type: type.INTEGER,
+      allowNull: true,
+      default: 0,
+    },
     description: {
-      type: type.STRING,
+      type: type.TEXT,
       allowNull: true,
     },
     uri: {
-      type: type.STRING,
+      type: type.TEXT,
       allowNull: false,
     },
     epNum: {
@@ -42,6 +47,8 @@ module.exports = (sequelize, type) => sequelize.define('episodes',
  *        type: integer
  *      name:
  *        type: string
+ *      duration:
+ *        type: integer
  *      description:
  *        type: string
  *      epNum:

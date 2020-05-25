@@ -5,6 +5,8 @@ const EpisodeModel = require('./episodes');
 const ProgressModel = require('./progess');
 const migrationFilmList = require('../db_migration/films_migration');
 const migrationEpList = require('../db_migration/episode_migration');
+const migrationProcess = require('../db_migration/progress_migration');
+const migrationUser = require('../db_migration/user_migration');
 
 const DATABASE_NAME = process.env.DATABASE_NAME || 'math_app';
 const DATABASE_USERNAME = process.env.DATABASE_USERNAME || 'root';
@@ -41,13 +43,15 @@ db.sync({ force: false }).then(async () => {
   const listFilm = await Films.findAll();
   if (listFilm.length === 0) {
     console.log('Empty film list, Start migrate data');
+    await Users.bulkCreate(migrationUser);
     await Films.bulkCreate(migrationFilmList);
     await Episodes.bulkCreate(migrationEpList);
+    await Progress.bulkCreate(migrationProcess);
   } else {
     console.log('Db has exist, Migration canceled');
   }
 });
 
 module.exports = {
-  Users, Films, Episodes,
+  Users, Films, Episodes, Progress,
 };

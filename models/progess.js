@@ -6,8 +6,8 @@ module.exports = (sequelize, type) => sequelize.define('progress',
       allowNull: false,
       autoIncrement: true,
     },
-    time: {
-      type: type.STRING,
+    currentTime: {
+      type: type.INTEGER,
       allowNull: false,
     },
   },
@@ -23,15 +23,11 @@ module.exports = (sequelize, type) => sequelize.define('progress',
  * @swagger
  *
  * definitions:
- *  User:
+ *  Progress:
  *    type: object
  *    properties:
- *      userId:
+ *      progressId:
  *        type: integer
- *      username:
- *        type: string
- *      role:
+ *      time:
  *        type: integer
- *      name:
- *        type: string
  */

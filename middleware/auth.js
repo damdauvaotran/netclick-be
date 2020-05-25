@@ -3,13 +3,21 @@ const { Users } = require('../models');
 const { role } = require('../constant');
 
 const jwtPrivateKey = process.env.PRIVATE_KEY_JWT || '!bE8JX7!owd!W67&XEU9kw2W';
+
+module.exports.getUserIdByToken = async (token) => {
+  const decodedData = await jwt.verify(token, jwtPrivateKey);
+  const { id } = decodedData;
+  return id;
+};
+
+module.exports.getTokenByRequest = (req) => req.headers.authorization
+&& req.headers.authorization.replace('Bearer ', '');
+
 module.exports.validateUser = async (req, res, next) => {
-  console.log('Full header', req.headers.authorization);
-  const authToken = req.headers.authorization && req.headers.authorization.replace('Bearer ', '');
+  const authToken = this.getTokenByRequest(req);
   try {
     // Keep try catch logic
-    const decodedData = await jwt.verify(authToken, jwtPrivateKey);
-    const { id } = decodedData;
+    const id = await this.getUserIdByToken(authToken);
     const requestUser = await Users.findOne({ where: { userId: id } });
     if (requestUser) {
       next();
