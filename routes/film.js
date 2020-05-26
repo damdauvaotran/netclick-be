@@ -104,26 +104,28 @@ router.get('/:filmId', async (req, res) => {
  */
 
 router.get('/', validateUser, async (req, res) => {
-  const name = req.query.name || '';
-  const starring = req.query.starring || '';
-  let year = req.query.year || undefined;
-  year = parseInt(year, 10);
-  console.log('film load: ', name);
-  const filmList = await db.Films.findAll({
-    where: {
-      name: {
-        [Op.substring]: name,
+  try {
+    const name = req.query.name || '';
+    const starring = req.query.starring || '';
+    console.log('film load: ', name);
+    const filmList = await db.Films.findAll({
+      where: {
+        name: {
+          [Op.substring]: name,
+        },
+        starring: {
+          [Op.substring]: starring,
+        },
+
       },
-      starring: {
-        [Op.substring]: starring,
-      },
-      year,
-    },
-  });
-  if (filmList) {
-    buildRes(res, true, filmList);
-  } else {
-    buildRes(res, false, 'Film not found');
+    });
+    if (filmList) {
+      buildRes(res, true, filmList);
+    } else {
+      buildRes(res, false, 'Film not found');
+    }
+  } catch (error) {
+    buildRes(res, false, error);
   }
 });
 

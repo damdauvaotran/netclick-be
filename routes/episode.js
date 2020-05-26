@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const { validateUser } = require('../middleware/auth');
+const { validateUser, getTokenByRequest, getUserIdByToken } = require('../middleware/auth');
 const db = require('../models');
 const { buildRes } = require('../utils/response');
 
@@ -10,8 +10,10 @@ const { buildRes } = require('../utils/response');
 /**
  * @swagger
  *
- * /video/episode/watch/{episodeId}:
+ * /episode/watch/{episodeId}:
  *  get:
+ *    security:
+ *      - Bearer: []
  *    summary: get episode video
  *    description: Return video
  *    produces:
@@ -53,8 +55,10 @@ router.get('/watch/:episodeId', validateUser, async (req, res) => {
 /**
  * @swagger
  *
- * /video/episode/{episodeId}:
+ * /episode/{episodeId}:
  *  get:
+ *    security:
+ *      - Bearer: []
  *    summary: get episode info
  *    description: Return episode info
  *    produces:
@@ -77,12 +81,23 @@ router.get('/watch/:episodeId', validateUser, async (req, res) => {
  *              $ref: '#/definitions/Episode'
  */
 
-router.get('/:episodeId', validateUser, async (req, res) => {
-  const { episodeId } = req;
+router.get('/:epId', validateUser, async (req, res) => {
+  const token = getTokenByRequest(req);
+  const userId = await getUserIdByToken(token);
+  const { epId } = req.params;
   const episodeInfo = await db.Episodes.findOne({
     where: {
-      episodeId,
+      epId,
     },
+    include: [
+      {
+        model: db.Progress,
+        where: {
+          userId,
+        },
+        required: false,
+      },
+    ],
   });
   if (episodeInfo) {
     buildRes(res, true, episodeInfo);
