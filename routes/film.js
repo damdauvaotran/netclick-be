@@ -45,13 +45,14 @@ router.get('/:filmId', async (req, res) => {
     },
     include: [{
       model: db.Episodes,
-      // where: { filmId: col('films.film_id') },
+      required: false,
       include: [
         {
           model: db.Progress,
           where: {
             userId: id,
           },
+          required: false,
         },
       ],
     }],
@@ -78,6 +79,16 @@ router.get('/:filmId', async (req, res) => {
  *        schema:
  *          type: string
  *        description: Name of the film
+ *      - in: query
+ *        name: year
+ *        schema:
+ *          type: int
+ *        description: Year of the film
+ *      - in: query
+ *        name: starring
+ *        schema:
+ *          type: string
+ *        description: Starring of the film
  *    produces:
  *      - application/json
  *    responses:
@@ -93,13 +104,20 @@ router.get('/:filmId', async (req, res) => {
  */
 
 router.get('/', validateUser, async (req, res) => {
-  const name = req.params.name || '';
-  console.log('film load');
+  const name = req.query.name || '';
+  const starring = req.query.starring || '';
+  let year = req.query.year || undefined;
+  year = parseInt(year, 10);
+  console.log('film load: ', name);
   const filmList = await db.Films.findAll({
     where: {
       name: {
         [Op.substring]: name,
       },
+      starring: {
+        [Op.substring]: starring,
+      },
+      year,
     },
   });
   if (filmList) {
