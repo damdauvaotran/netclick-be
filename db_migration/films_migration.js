@@ -11,7 +11,7 @@ module.exports = [
   },
   {
     filmId: 2,
-    name: 'The end of the fucking world',
+    name: 'The end of the f***ng world',
     description: 'James, một cậu bé loay hoay đối phó với nỗi đau theo cách duy nhất mà cậu ta biết. Còn Alyssa không phải là một con nhỏ chỉ biết phá hoại, mà ẩn sâu là đứa trẻ tuyệt vọng quậy phá chỉ để có được một chút sự quan tâm. Chính sự tương đồng này đã kéo hai tâm hồn ảm đạm lại với nhau. Dần dà họ đối xử với nhau tử tế lên chút một, để bóng tối bớt lấn át, khiến thế giới trở nên bớt tàn tệ.',
     imdb: 9.0,
     year: 2015,

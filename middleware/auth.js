@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const { Users } = require('../models');
-const { role } = require('../constant');
 
 const jwtPrivateKey = process.env.PRIVATE_KEY_JWT || '!bE8JX7!owd!W67&XEU9kw2W';
 
