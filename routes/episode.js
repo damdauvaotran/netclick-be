@@ -100,7 +100,7 @@ router.get('/:epId', validateUser, async (req, res) => {
     ],
   });
   if (episodeInfo) {
-    buildRes(res, true, episodeInfo);
+    return buildRes(res, true, episodeInfo);
   }
   buildRes(res, false, 'Film not found');
 });
