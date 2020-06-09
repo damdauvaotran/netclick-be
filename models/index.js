@@ -10,7 +10,7 @@ const ActorModel = require('./actors');
 
 // Many to many model
 const FilmActorModel = require('./many_to_many/films_actors');
-const FilmCategoryModel = require('./many_to_many/films_caategories');
+const FilmCategoryModel = require('./many_to_many/films_categories');
 
 // Initial data for dev purpose
 const migrationFilmList = require('../db_data/films_data');
@@ -86,6 +86,8 @@ db.sync({ force: true }).then(async () => {
     await Progresses.bulkCreate(migrationProcess);
     await Actors.bulkCreate(migrationActor);
     await Categories.bulkCreate(migrationCategory);
+    await FilmsCategories.bulkCreate([]);
+    await FilmsActors.bulkCreate([]);
   } else {
     console.log('Db has exist, Migration canceled');
   }
