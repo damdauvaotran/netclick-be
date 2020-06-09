@@ -15,6 +15,8 @@ const { buildRes } = require('../utils/response');
  *      - Bearer: []
  *    summary: get all film
  *    description: Return film list
+ *    tags:
+ *      - progress
  *    parameters:
  *      - in: body
  *        name: body
@@ -49,7 +51,7 @@ router.post('/save', validateUser, async (req, res) => {
   try {
     const token = getTokenByRequest(req);
     const userId = await getUserIdByToken(token);
-    const currentProgress = await db.Progress.findOne({
+    const currentProgress = await db.Progresses.findOne({
       where: {
         userId,
         epId,
@@ -57,14 +59,14 @@ router.post('/save', validateUser, async (req, res) => {
     });
 
     if (currentProgress !== null) {
-      await db.Progress.update({ currentTime: progress }, {
+      await db.Progresses.update({ currentTime: progress }, {
         where: {
           userId,
           epId,
         },
       });
     } else {
-      await db.Progress.create({
+      await db.Progresses.create({
         userId,
         epId,
         currentTime: progress,

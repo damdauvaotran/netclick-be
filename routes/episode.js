@@ -16,6 +16,8 @@ const { buildRes } = require('../utils/response');
  *      - Bearer: []
  *    summary: get episode video
  *    description: Return video
+ *    tags:
+ *      - episode
  *    produces:
  *      - application/json
  *    parameters:
@@ -61,6 +63,8 @@ router.get('/watch/:episodeId', validateUser, async (req, res) => {
  *      - Bearer: []
  *    summary: get episode info
  *    description: Return episode info
+ *    tags:
+ *      - episode
  *    produces:
  *      - application/json
  *    parameters:
@@ -91,7 +95,7 @@ router.get('/:epId', validateUser, async (req, res) => {
     },
     include: [
       {
-        model: db.Progress,
+        model: db.Progresses,
         where: {
           userId,
         },

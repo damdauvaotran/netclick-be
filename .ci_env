@@ -1,5 +1,5 @@
 SERVER_IP=127.0.0.1
 SERVER_USER=root
 SSH_PRIVATE_KEY=your_ssh_private_key
-APP_NAME=checker-be
+APP_NAME=netclick-be
 APP_PORT=8000

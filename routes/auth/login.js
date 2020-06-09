@@ -16,6 +16,8 @@ const router = express.Router();
  *  post:
  *    summary: Login
  *    description: Return token
+ *    tags:
+ *      - auth
  *    produces:
  *      - application/json
  *    parameters:
