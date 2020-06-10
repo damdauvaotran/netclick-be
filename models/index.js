@@ -11,10 +11,18 @@ const migrationUser = require('../db_migration/user_migration');
 const DATABASE_NAME = process.env.DATABASE_NAME || 'math_app';
 const DATABASE_USERNAME = process.env.DATABASE_USERNAME || 'root';
 const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD || '12345678';
+const DATABASE_URL = process.env.DATABASE_URL || 'localhost';
+const DATABASE_PORT = process.env.DATABASE_PORT || '3306';
 
 const db = new Sequelize(DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD, {
-  host: 'localhost',
+  host: DATABASE_URL,
+  port: DATABASE_PORT,
   dialect: 'mysql',
+  timezone: '+07:00',
+  retry: {
+    max: 100,
+    timeout: 60 * 60 * 1000,
+  },
   pool: {
     max: 10,
     min: 0,
