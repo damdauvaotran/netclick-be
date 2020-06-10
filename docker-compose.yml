@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  netclick-backend:
+    build: .
+    ports:
+      - "9000:8000"
+    restart: always
+    environment:
+      NODE_ENV: development
+      PORT: 8000
+      PRIVATE_KEY_JWT: MIThn57y8cyh59h78%&^n5ty78
+      SALT_ROUNDS: 10
+      SALT_LENGTH: 4
+      # DATABASE
+      DATABASE_URL: mysql
+      DATABASE_PORT: 3306
+      DATABASE_NAME: netclick
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: 12345678
+    # depends_on:
+    #   - mysql
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234567
+      MYSQL_DATABASE: netclick
+      # MYSQL_USER: user
+      MYSQL_PASSWORD: 12345678
+    restart: always
+    expose:
+      - '3306'
+    # Authenticate by password
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+volumes:
+  mysql_data:
