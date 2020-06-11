@@ -15,6 +15,8 @@ const { buildRes } = require('../utils/response');
  *      - Bearer: []
  *    summary: get film by id
  *    description: Return film info
+ *    tags:
+ *      - film
  *    produces:
  *      - application/json
  *    parameters:
@@ -48,7 +50,7 @@ router.get('/:filmId', async (req, res) => {
       required: false,
       include: [
         {
-          model: db.Progress,
+          model: db.Progresses,
           where: {
             userId: id,
           },
@@ -73,6 +75,8 @@ router.get('/:filmId', async (req, res) => {
  *      - Bearer: []
  *    summary: get all film
  *    description: Return film list
+ *    tags:
+ *      - film
  *    parameters:
  *      - in: query
  *        name: name

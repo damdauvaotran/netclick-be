@@ -5,6 +5,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const fs = require('fs');
 
 const indexRouter = require('./routes/index');
 const swaggerSpec = require('./swagger');
@@ -15,8 +16,12 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// Logger setup
+const logFile = fs.createWriteStream('./myLogFile.log', { flags: 'a' }); // us
+
 app.use(cors());
-app.use(logger('dev'));
+app.use(logger('common', { stream: logFile }));
+// app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

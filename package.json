@@ -5,11 +5,9 @@
   "scripts": {
     "dev": "nodemon -r dotenv/config index.js",
     "start": "node -r dotenv/config index.js",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "lint-fix": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
+    "lint": "eslint --ext .js--ignore-path .gitignore .",
+    "lint-fix": "eslint --fix --ext .js --ignore-path .gitignore .",
     "migrate": "npx sequelize-cli db:migrate",
-    "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
-    "pretest": "npm run migrate:reset",
     "test": "jest --testTimeout=10000"
   },
   "dependencies": {

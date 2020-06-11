@@ -16,6 +16,9 @@
 /resources
 /public/movies
 
+# log
+*.log
+
 # production
 /build
 

@@ -1,14 +1,14 @@
-module.exports = (sequelize, type) => sequelize.define('progress',
+module.exports = (sequelize, type) => sequelize.define('categories',
   {
-    progressId: {
+    categoryId: {
       type: type.BIGINT,
       primaryKey: true,
       allowNull: false,
       autoIncrement: true,
     },
-    currentTime: {
-      type: type.INTEGER,
-      allowNull: false,
+    categoryName: {
+      type: type.STRING,
+      allowNull: true,
     },
   },
   {
@@ -23,11 +23,11 @@ module.exports = (sequelize, type) => sequelize.define('progress',
  * @swagger
  *
  * definitions:
- *  Progress:
+ *  Category:
  *    type: object
  *    properties:
- *      progressId:
+ *      categoryId:
  *        type: integer
- *      time:
- *        type: integer
+ *      categoryName:
+ *        type: string
  */

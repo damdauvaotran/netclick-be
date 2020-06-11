@@ -17,6 +17,8 @@ const saltLength = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_LENGTH, 1
  *  post:
  *    summary: Sign up
  *    description: create account
+ *    tags:
+ *      - auth
  *    produces:
  *      - application/json
  *    parameters:
