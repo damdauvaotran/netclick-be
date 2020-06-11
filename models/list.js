@@ -1,4 +1,4 @@
-module.exports = (sequelize, type) => sequelize.define('likeList',
+module.exports = (sequelize, type) => sequelize.define('list',
   {
     listId: {
       type: type.BIGINT,
@@ -23,15 +23,11 @@ module.exports = (sequelize, type) => sequelize.define('likeList',
  * @swagger
  *
  * definitions:
- *  User:
+ *  List:
  *    type: object
  *    properties:
- *      userId:
+ *      listId:
  *        type: integer
- *      username:
- *        type: string
- *      role:
- *        type: integer
- *      name:
+ *      listName:
  *        type: string
  */

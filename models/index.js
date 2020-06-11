@@ -7,6 +7,7 @@ const EpisodeModel = require('./episodes');
 const ProgressModel = require('./progresses');
 const CategoryModel = require('./categories');
 const ActorModel = require('./actors');
+const ListModel = require('./list');
 
 // Many to many model
 const FilmActorModel = require('./many_to_many/films_actors');
@@ -51,6 +52,7 @@ const Episodes = EpisodeModel(db, Sequelize);
 const Progresses = ProgressModel(db, Sequelize);
 const Categories = CategoryModel(db, Sequelize);
 const Actors = ActorModel(db, Sequelize);
+const Lists = ListModel(db, Sequelize);
 
 // Many to many table
 const FilmsActors = FilmActorModel(db, Sequelize);
@@ -71,8 +73,11 @@ Categories.belongsToMany(Films, { through: FilmsCategories, foreignKey: 'categor
 Films.belongsToMany(Actors, { through: FilmsActors, foreignKey: 'film_id' });
 Actors.belongsToMany(Films, { through: FilmsActors, foreignKey: 'actor_id' });
 
+Users.belongsToMany(Films, { through: Lists, foreignKey: 'user_id' });
+Films.belongsToMany(Users, { through: Lists, foreignKey: 'film_id' });
 
-db.sync({ force: true }).then(async () => {
+
+db.sync({ force: false }).then(async () => {
   console.log('Database & tables created!');
   const listFilm = await Films.findAll();
 
@@ -94,5 +99,5 @@ db.sync({ force: true }).then(async () => {
 });
 
 module.exports = {
-  Users, Films, Episodes, Progresses, Actors, Categories,
+  Users, Films, Episodes, Progresses, Actors, Categories, Lists,
 };

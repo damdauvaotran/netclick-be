@@ -23,15 +23,11 @@ module.exports = (sequelize, type) => sequelize.define('comments',
  * @swagger
  *
  * definitions:
- *  User:
+ *  Comment:
  *    type: object
  *    properties:
- *      userId:
+ *      commentId:
  *        type: integer
- *      username:
- *        type: string
- *      role:
- *        type: integer
- *      name:
+ *      comment:
  *        type: string
  */
