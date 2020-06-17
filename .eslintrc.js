@@ -17,7 +17,7 @@ module.exports = {
     'no-await-in-loop': 'off',
     'no-restricted-syntax': 'off',
     'no-console': 'off',
-    'no-unused-vars': ['warning', {vars: 'local'}],
+    'no-unused-vars': ['warn', {vars: 'local'}],
     quotes: ['error', 'single', { avoidEscape: false, allowTemplateLiterals: true }],
     'comma-dangle': ['error', 'always-multiline']
   }
