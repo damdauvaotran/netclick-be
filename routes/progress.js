@@ -47,7 +47,6 @@ const { buildRes } = require('../utils/response');
 
 router.post('/save', validateUser, async (req, res) => {
   const { epId, progress } = req.body;
-  console.log('-------------------------------Hello handsome guy', epId, progress);
   try {
     const token = getTokenByRequest(req);
     const userId = await getUserIdByToken(token);

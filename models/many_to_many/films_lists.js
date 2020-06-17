@@ -1,4 +1,4 @@
-module.exports = (db) => db.define('films_category',
+module.exports = (db) => db.define('films_lists',
   {
   },
   {

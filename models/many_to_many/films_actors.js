@@ -1,4 +1,4 @@
-module.exports = (db, type) => db.define('films_actors',
+module.exports = (db) => db.define('films_actors',
   {
   },
   {
@@ -7,4 +7,7 @@ module.exports = (db, type) => db.define('films_actors',
     sequelize: db,
     charset: 'utf8',
     collate: 'utf8_general_ci',
+    defaultScope: {
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
+    },
   });

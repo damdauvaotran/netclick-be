@@ -12,6 +12,7 @@ const ListModel = require('./list');
 // Many to many model
 const FilmActorModel = require('./many_to_many/films_actors');
 const FilmCategoryModel = require('./many_to_many/films_categories');
+const FilmListModel = require('./many_to_many/films_lists');
 
 // Initial data for dev purpose
 const migrationFilmList = require('../db_data/films_data');
@@ -20,6 +21,9 @@ const migrationProcess = require('../db_data/progress_data');
 const migrationUser = require('../db_data/user_data');
 const migrationActor = require('../db_data/actor_data');
 const migrationCategory = require('../db_data/category_data');
+const migrationList = require('../db_data/list_data');
+const migrationFilmActor = require('../db_data/film_actor_data');
+const migrationFilmCategory = require('../db_data/film_category_data');
 
 
 const DATABASE_NAME = process.env.DATABASE_NAME || 'math_app';
@@ -46,17 +50,18 @@ const db = new Sequelize(DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD, {
 });
 
 // Single table
-const Users = UserModel(db, Sequelize);
-const Films = FilmModel(db, Sequelize);
-const Episodes = EpisodeModel(db, Sequelize);
-const Progresses = ProgressModel(db, Sequelize);
-const Categories = CategoryModel(db, Sequelize);
-const Actors = ActorModel(db, Sequelize);
-const Lists = ListModel(db, Sequelize);
+const Users = UserModel(db);
+const Films = FilmModel(db);
+const Episodes = EpisodeModel(db);
+const Progresses = ProgressModel(db);
+const Categories = CategoryModel(db);
+const Actors = ActorModel(db);
+const Lists = ListModel(db);
 
 // Many to many table
 const FilmsActors = FilmActorModel(db, Sequelize);
 const FilmsCategories = FilmCategoryModel(db, Sequelize);
+const FilmsLists = FilmListModel(db, Sequelize);
 
 Films.hasMany(Episodes, { foreignKey: 'filmId' });
 Episodes.belongsTo(Films, { foreignKey: 'filmId' });
@@ -73,11 +78,14 @@ Categories.belongsToMany(Films, { through: FilmsCategories, foreignKey: 'categor
 Films.belongsToMany(Actors, { through: FilmsActors, foreignKey: 'film_id' });
 Actors.belongsToMany(Films, { through: FilmsActors, foreignKey: 'actor_id' });
 
-Users.belongsToMany(Films, { through: Lists, foreignKey: 'user_id' });
-Films.belongsToMany(Users, { through: Lists, foreignKey: 'film_id' });
+Users.hasMany(Lists, { foreignKey: 'userId' });
+Lists.belongsTo(Users, { foreignKey: 'userId' });
+
+Lists.belongsToMany(Films, { through: FilmsLists, foreignKey: 'list_id' });
+Films.belongsToMany(Lists, { through: FilmsLists, foreignKey: 'film_id' });
 
 
-db.sync({ force: false }).then(async () => {
+db.sync({ force: true }).then(async () => {
   console.log('Database & tables created!');
   const listFilm = await Films.findAll();
 
@@ -91,8 +99,9 @@ db.sync({ force: false }).then(async () => {
     await Progresses.bulkCreate(migrationProcess);
     await Actors.bulkCreate(migrationActor);
     await Categories.bulkCreate(migrationCategory);
-    await FilmsCategories.bulkCreate([]);
-    await FilmsActors.bulkCreate([]);
+    await Lists.bulkCreate(migrationList);
+    await FilmsCategories.bulkCreate(migrationFilmCategory);
+    await FilmsActors.bulkCreate(migrationFilmActor);
   } else {
     console.log('Db has exist, Migration canceled');
   }

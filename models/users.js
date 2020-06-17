@@ -1,4 +1,6 @@
-module.exports = (sequelize, type) => sequelize.define('users',
+const type = require('sequelize');
+
+module.exports = (db) => db.define('users',
   {
     userId: {
       type: type.BIGINT,
@@ -30,9 +32,12 @@ module.exports = (sequelize, type) => sequelize.define('users',
   {
     underscored: true,
     timestamps: true,
-    sequelize,
+    sequelize: db,
     charset: 'utf8',
     collate: 'utf8_general_ci',
+    defaultScope: {
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
+    },
   });
 
 /**

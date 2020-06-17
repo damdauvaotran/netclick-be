@@ -120,8 +120,19 @@ router.get('/', validateUser, async (req, res) => {
         starring: {
           [Op.substring]: starring,
         },
-
       },
+      include: [
+        {
+          model: db.Actors,
+          required: false,
+          through: { attributes: [] },
+        },
+        {
+          model: db.Categories,
+          required: false,
+          through: { attributes: [] },
+        },
+      ],
     });
     if (filmList) {
       buildRes(res, true, filmList);
@@ -129,7 +140,7 @@ router.get('/', validateUser, async (req, res) => {
       buildRes(res, false, 'Film not found');
     }
   } catch (error) {
-    buildRes(res, false, error);
+    buildRes(res, false, error.toString());
   }
 });
 
