@@ -2,9 +2,9 @@ const express = require('express');
 const { Op, col } = require('sequelize');
 
 const router = express.Router();
-const { validateUser, getUserIdByToken, getTokenByRequest } = require('../middleware/auth');
+const { validateUser, getUserIdByToken, getTokenByRequest } = require('../helper/middleware/auth');
 const db = require('../models');
-const { buildRes } = require('../utils/response');
+const { buildRes } = require('../helper/utils/response');
 
 /**
  * @swagger

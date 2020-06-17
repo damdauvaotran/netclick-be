@@ -7,8 +7,8 @@ const logger = require('morgan');
 const cors = require('cors');
 const fs = require('fs');
 
-const indexRouter = require('./routes/index');
-const swaggerSpec = require('./swagger');
+const indexRouter = require('./api/index');
+const swaggerSpec = require('../swagger');
 
 const app = express();
 
