@@ -45,7 +45,7 @@ const { buildRes } = require('../helper/utils/response');
  *              type: object
  */
 
-router.post('/save', validateUser, async (req, res) => {
+router.post('/progress/save', validateUser, async (req, res) => {
   const { epId, progress } = req.body;
   try {
     const token = getTokenByRequest(req);

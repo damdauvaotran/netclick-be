@@ -39,7 +39,7 @@ const { buildRes } = require('../helper/utils/response');
  */
 
 
-router.get('/watch/:episodeId', validateUser, async (req, res) => {
+router.get('/episode/watch/:episodeId', validateUser, async (req, res) => {
   const { episodeId } = req;
   const episode = await db.Episodes.findOne({
     where: {
@@ -85,7 +85,7 @@ router.get('/watch/:episodeId', validateUser, async (req, res) => {
  *              $ref: '#/definitions/Episode'
  */
 
-router.get('/:epId', validateUser, async (req, res) => {
+router.get('/episode/:epId', validateUser, async (req, res) => {
   const token = getTokenByRequest(req);
   const userId = await getUserIdByToken(token);
   const { epId } = req.params;

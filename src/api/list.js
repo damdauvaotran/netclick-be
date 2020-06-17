@@ -33,7 +33,7 @@ const { buildRes } = require('../helper/utils/response');
  *                  $ref: '#/definitions/List'
  */
 
-router.get('/', validateUser, async (req, res) => {
+router.get('/list', validateUser, async (req, res) => {
   try {
     const token = getTokenByRequest(req);
     const userId = await getUserIdByToken(token);

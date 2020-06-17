@@ -2,7 +2,7 @@ const swaggerJsdoc = require('swagger-jsdoc');
 
 const options = {
   // List of files to be processed.
-  apis: ['./routes/**/*.js', './models/**/*.js'],
+  apis: ['./src/api/**/*.js',],
   basePath: '/api/v1',
   swaggerDefinition: {
     info: {

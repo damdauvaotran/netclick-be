@@ -37,7 +37,7 @@ const { buildRes } = require('../helper/utils/response');
  *              $ref: '#/definitions/Film'
  */
 
-router.get('/:filmId', async (req, res) => {
+router.get('/film/:filmId', async (req, res) => {
   const { filmId } = req.params;
   const token = getTokenByRequest(req);
   const id = await getUserIdByToken(token);
@@ -107,7 +107,7 @@ router.get('/:filmId', async (req, res) => {
  *              $ref: '#/definitions/Film'
  */
 
-router.get('/', validateUser, async (req, res) => {
+router.get('/film', validateUser, async (req, res) => {
   try {
     const name = req.query.name || '';
     const starring = req.query.starring || '';

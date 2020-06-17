@@ -7,14 +7,14 @@ const filmRouter = require('./film');
 const progressRouter = require('./progress');
 const listRouter = require('./list');
 
-router.use('/auth', authRouter);
-router.use('/episode', episodeRouter);
-router.use('/film', filmRouter);
-router.use('/progress', progressRouter);
-router.use('/list', listRouter);
+router.use('/', authRouter);
+router.use('/', episodeRouter);
+router.use('/', filmRouter);
+router.use('/', progressRouter);
+router.use('/', listRouter);
 
 
-/* GET home page. */
+// GET home page.
 router.get('/', (req, res) => {
   res.render('index', { title: 'Express' });
 });
