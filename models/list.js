@@ -1,6 +1,6 @@
 const type = require('sequelize');
 
-module.exports = (db) => db.define('list',
+module.exports = (db, config) => db.define('list',
   {
     listId: {
       type: type.BIGINT,
@@ -13,16 +13,7 @@ module.exports = (db) => db.define('list',
       allowNull: false,
     },
   },
-  {
-    underscored: true,
-    timestamps: true,
-    db,
-    charset: 'utf8',
-    collate: 'utf8_general_ci',
-    defaultScope: {
-      attributes: { exclude: ['createdAt', 'updatedAt'] },
-    },
-  });
+  config);
 
 /**
  * @swagger

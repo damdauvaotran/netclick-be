@@ -1,6 +1,6 @@
 const type = require('sequelize');
 
-module.exports = (db) => db.define('categories',
+module.exports = (db, config) => db.define('categories',
   {
     categoryId: {
       type: type.BIGINT,
@@ -13,16 +13,7 @@ module.exports = (db) => db.define('categories',
       allowNull: true,
     },
   },
-  {
-    underscored: true,
-    timestamps: true,
-    sequelize: db,
-    charset: 'utf8',
-    collate: 'utf8_general_ci',
-    defaultScope: {
-      attributes: { exclude: ['createdAt', 'updatedAt'] },
-    },
-  });
+  config);
 
 /**
  * @swagger

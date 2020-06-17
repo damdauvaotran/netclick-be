@@ -49,19 +49,30 @@ const db = new Sequelize(DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD, {
   },
 });
 
+const tableConfig = {
+  underscored: true,
+  timestamps: true,
+  sequelize: db,
+  charset: 'utf8',
+  collate: 'utf8_general_ci',
+  defaultScope: {
+    attributes: { exclude: ['createdAt', 'updatedAt'] },
+  },
+};
+
 // Single table
-const Users = UserModel(db);
-const Films = FilmModel(db);
-const Episodes = EpisodeModel(db);
-const Progresses = ProgressModel(db);
-const Categories = CategoryModel(db);
-const Actors = ActorModel(db);
-const Lists = ListModel(db);
+const Users = UserModel(db, tableConfig);
+const Films = FilmModel(db, tableConfig);
+const Episodes = EpisodeModel(db, tableConfig);
+const Progresses = ProgressModel(db, tableConfig);
+const Categories = CategoryModel(db, tableConfig);
+const Actors = ActorModel(db, tableConfig);
+const Lists = ListModel(db, tableConfig);
 
 // Many to many table
-const FilmsActors = FilmActorModel(db, Sequelize);
-const FilmsCategories = FilmCategoryModel(db, Sequelize);
-const FilmsLists = FilmListModel(db, Sequelize);
+const FilmsActors = FilmActorModel(db, tableConfig);
+const FilmsCategories = FilmCategoryModel(db, tableConfig);
+const FilmsLists = FilmListModel(db, tableConfig);
 
 Films.hasMany(Episodes, { foreignKey: 'filmId' });
 Episodes.belongsTo(Films, { foreignKey: 'filmId' });

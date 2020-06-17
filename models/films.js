@@ -1,6 +1,6 @@
 const type = require('sequelize');
 
-module.exports = (db) => db.define('flims',
+module.exports = (db, config) => db.define('flims',
   {
     filmId: {
       type: type.BIGINT,
@@ -37,16 +37,7 @@ module.exports = (db) => db.define('flims',
       allowNull: false,
     },
   },
-  {
-    sequelize: db,
-    underscored: true,
-    timestamps: true,
-    charset: 'utf8',
-    collate: 'utf8_general_ci',
-    defaultScope: {
-      attributes: { exclude: ['createdAt', 'updatedAt'] },
-    },
-  });
+  config);
 
 /**
  * @swagger
