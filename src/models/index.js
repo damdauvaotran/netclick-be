@@ -1,18 +1,18 @@
 const Sequelize = require('sequelize');
 
 // Single model
-const UserModel = require('./users');
-const FilmModel = require('./films');
-const EpisodeModel = require('./episodes');
-const ProgressModel = require('./progresses');
-const CategoryModel = require('./categories');
-const ActorModel = require('./actors');
-const ListModel = require('./list');
+const UserModel = require('./users_model');
+const FilmModel = require('./films_model');
+const EpisodeModel = require('./episodes_model');
+const ProgressModel = require('./progresses_model');
+const CategoryModel = require('./categories_model');
+const ActorModel = require('./actors_model');
+const ListModel = require('./lists_model');
 
 // Many to many model
-const FilmActorModel = require('./many_to_many/films_actors');
-const FilmCategoryModel = require('./many_to_many/films_categories');
-const FilmListModel = require('./many_to_many/films_lists');
+const FilmActorModel = require('./many_to_many/films_actors_model');
+const FilmCategoryModel = require('./many_to_many/films_categories_model');
+const FilmListModel = require('./many_to_many/films_lists_model');
 
 // Initial data for dev purpose
 const migrationFilmList = require('../mock/films_data');

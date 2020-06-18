@@ -1,12 +1,8 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const { buildRes } = require('../../helper/utils/response');
-const { Users } = require('../../models');
-const UserService = require('../../services/user_service');
 
-const jwtPrivateKey = process.env.PRIVATE_KEY_JWT || '!bE8JX7!owd!W67&XEU9kw2W';
+const { buildRes } = require('../../helper/utils/response');
+const UserService = require('../../services/user_service');
 
 const router = express.Router();
 
@@ -59,9 +55,9 @@ router.post(
     const userDTO = req.body;
     try {
       const token = await UserService.login(userDTO);
-      buildRes(res, true, { token });
+      return buildRes(res, true, { token });
     } catch (e) {
-      buildRes(res, false, e.toString());
+      return buildRes(res, false, e.toString());
     }
   },
 );

@@ -1,10 +1,10 @@
 const express = require('express');
-const { Op, col } = require('sequelize');
+
+const { validateUser, getUserIdByToken, getTokenByRequest } = require('../helper/middleware/auth');
+const { buildRes } = require('../helper/utils/response');
+const FilmService = require('../services/film_service');
 
 const router = express.Router();
-const { validateUser, getUserIdByToken, getTokenByRequest } = require('../helper/middleware/auth');
-const db = require('../models');
-const { buildRes } = require('../helper/utils/response');
 
 /**
  * @swagger
@@ -38,31 +38,15 @@ const { buildRes } = require('../helper/utils/response');
  */
 
 router.get('/film/:filmId', async (req, res) => {
-  const { filmId } = req.params;
-  const token = getTokenByRequest(req);
-  const id = await getUserIdByToken(token);
-  const filmInfo = await db.Films.findOne({
-    where: {
-      filmId,
-    },
-    include: [{
-      model: db.Episodes,
-      required: false,
-      include: [
-        {
-          model: db.Progresses,
-          where: {
-            userId: id,
-          },
-          required: false,
-        },
-      ],
-    }],
-  });
-  if (filmId) {
-    buildRes(res, true, filmInfo);
-  } else {
-    buildRes(res, false, 'Film not found');
+  try {
+    const { filmId } = req.params;
+    const token = getTokenByRequest(req);
+    const userId = await getUserIdByToken(token);
+
+    const filmInfo = await FilmService.getFilmByIdWithProgress(filmId, userId);
+    return buildRes(res, true, filmInfo);
+  } catch (e) {
+    return buildRes(res, false, e.toString());
   }
 });
 
@@ -109,40 +93,12 @@ router.get('/film/:filmId', async (req, res) => {
 
 router.get('/film', validateUser, async (req, res) => {
   try {
-    const name = req.query.name || '';
-    const starring = req.query.starring || '';
-    console.log('film load: ', name);
-    const filmList = await db.Films.findAll({
-      where: {
-        name: {
-          [Op.substring]: name,
-        },
-        starring: {
-          [Op.substring]: starring,
-        },
-      },
-      include: [
-        {
-          model: db.Actors,
-          required: false,
-          through: { attributes: [] },
-        },
-        {
-          model: db.Categories,
-          required: false,
-          through: { attributes: [] },
-        },
-      ],
-    });
-    if (filmList) {
-      buildRes(res, true, filmList);
-    } else {
-      buildRes(res, false, 'Film not found');
-    }
-  } catch (error) {
-    buildRes(res, false, error.toString());
+    const { query } = req;
+    const filmList = await FilmService.searchFilmByQuery(query);
+    return buildRes(res, true, filmList);
+  } catch (e) {
+    return buildRes(res, false, e.toString());
   }
 });
-
 
 module.exports = router;

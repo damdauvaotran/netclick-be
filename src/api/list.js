@@ -5,6 +5,8 @@ const router = express.Router();
 const { validateUser, getUserIdByToken, getTokenByRequest } = require('../helper/middleware/auth');
 const db = require('../models');
 const { buildRes } = require('../helper/utils/response');
+const ListService = require('../services/list_service');
+const lists_model = require('../models/lists_model');
 
 /**
  * @swagger
@@ -37,16 +39,10 @@ router.get('/list', validateUser, async (req, res) => {
   try {
     const token = getTokenByRequest(req);
     const userId = await getUserIdByToken(token);
-    console.log('hello');
-    const filmList = await db.Lists.findAll({
-      where: {
-        userId,
-      },
-    });
-    buildRes(res, true, filmList);
-  } catch (err) {
-    console.error(err);
-    buildRes(res, false, err);
+    const filmList = await ListService.getListByUser(userId);
+    return buildRes(res, true, filmList);
+  } catch (e) {
+    return buildRes(res, false, e.toString());
   }
 });
 

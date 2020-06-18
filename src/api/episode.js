@@ -5,7 +5,7 @@ const router = express.Router();
 const { validateUser, getTokenByRequest, getUserIdByToken } = require('../helper/middleware/auth');
 const db = require('../models');
 const { buildRes } = require('../helper/utils/response');
-
+const EpisodeService = require('../services/episode_service');
 
 /**
  * @swagger
@@ -40,18 +40,14 @@ const { buildRes } = require('../helper/utils/response');
 
 
 router.get('/episode/watch/:episodeId', validateUser, async (req, res) => {
-  const { episodeId } = req;
-  const episode = await db.Episodes.findOne({
-    where: {
-      episodeId,
-    },
-  });
-  if (episode) {
-    const { uri } = episode;
-    const file = `./resources/movies/${uri}.mp4`;
+  try {
+    const { episodeId } = req;
+
+    const file = await EpisodeService.getEpFileById(episodeId);
     return res.download(file);
+  } catch (e) {
+    return buildRes(res, false, e.toString());
   }
-  buildRes(res, false, 'Ep not found');
 });
 
 /**
@@ -86,27 +82,16 @@ router.get('/episode/watch/:episodeId', validateUser, async (req, res) => {
  */
 
 router.get('/episode/:epId', validateUser, async (req, res) => {
-  const token = getTokenByRequest(req);
-  const userId = await getUserIdByToken(token);
-  const { epId } = req.params;
-  const episodeInfo = await db.Episodes.findOne({
-    where: {
-      epId,
-    },
-    include: [
-      {
-        model: db.Progresses,
-        where: {
-          userId,
-        },
-        required: false,
-      },
-    ],
-  });
-  if (episodeInfo) {
+  try {
+    const token = getTokenByRequest(req);
+    const userId = await getUserIdByToken(token);
+    const { epId } = req.params;
+
+    const episodeInfo = await EpisodeService.getEpByIdWithProgress(epId, userId);
     return buildRes(res, true, episodeInfo);
+  } catch (e) {
+    return buildRes(res, false, e.toString());
   }
-  return buildRes(res, false, 'Film not found');
 });
 
 
