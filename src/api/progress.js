@@ -2,9 +2,10 @@ const express = require('express');
 const { Op, col } = require('sequelize');
 
 const router = express.Router();
-const { validateUser, getUserIdByToken, getTokenByRequest } = require('../middleware/auth');
+const { validateUser, getUserIdByToken, getTokenByRequest } = require('../helper/middleware/auth');
 const db = require('../models');
-const { buildRes } = require('../utils/response');
+const { buildRes } = require('../helper/utils/response');
+const ProgressService = require('../services/progress_service');
 
 /**
  * @swagger
@@ -45,35 +46,15 @@ const { buildRes } = require('../utils/response');
  *              type: object
  */
 
-router.post('/save', validateUser, async (req, res) => {
+router.post('/progress/save', validateUser, async (req, res) => {
   const { epId, progress } = req.body;
   try {
     const token = getTokenByRequest(req);
     const userId = await getUserIdByToken(token);
-    const currentProgress = await db.Progresses.findOne({
-      where: {
-        userId,
-        epId,
-      },
-    });
-
-    if (currentProgress !== null) {
-      await db.Progresses.update({ currentTime: progress }, {
-        where: {
-          userId,
-          epId,
-        },
-      });
-    } else {
-      await db.Progresses.create({
-        userId,
-        epId,
-        currentTime: progress,
-      });
-    }
-    buildRes(res, true, {});
-  } catch (err) {
-    buildRes(res, false, err);
+    const savedProgress = await ProgressService.saveProgress(epId, userId, progress);
+    return buildRes(res, true, savedProgress);
+  } catch (e) {
+    return buildRes(res, false, e.toString());
   }
 });
 

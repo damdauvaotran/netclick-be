@@ -1,11 +1,8 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const { buildRes } = require('../../utils/response');
-const { Users } = require('../../models');
 
-const jwtPrivateKey = process.env.PRIVATE_KEY_JWT || '!bE8JX7!owd!W67&XEU9kw2W';
+const { buildRes } = require('../../helper/utils/response');
+const UserService = require('../../services/user_service');
 
 const router = express.Router();
 
@@ -54,36 +51,13 @@ router.post(
     if (!errors.isEmpty()) {
       return buildRes(res, false, 'Invalid input');
     }
-    const { username, password } = req.body;
 
+    const userDTO = req.body;
     try {
-      const user = await Users.findOne({
-        where: { username },
-      });
-
-      if (user === null) {
-        return buildRes(res, false, 'Invalid login info');
-      }
-      const encryptedTruePassword = user.password;
-      const { salt } = user;
-      console.log(encryptedTruePassword);
-      const isPasswordCorrect = await bcrypt.compare(
-        password + salt,
-        encryptedTruePassword,
-      );
-
-      if (isPasswordCorrect) {
-        const token = jwt.sign(
-          { username, id: user.userId, r: user.role },
-          jwtPrivateKey,
-          { expiresIn: 8640000 },
-        ); // 100 days
-        return buildRes(res, true, { token });
-      }
-      return buildRes(res, false, 'Invalid login info');
+      const token = await UserService.login(userDTO);
+      return buildRes(res, true, { token });
     } catch (e) {
-      console.log(e);
-      buildRes(res, false, e.toString());
+      return buildRes(res, false, e.toString());
     }
   },
 );

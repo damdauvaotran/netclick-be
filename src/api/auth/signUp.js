@@ -2,8 +2,9 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const cryptoRandomString = require('crypto-random-string');
 const { body, validationResult } = require('express-validator');
-const { buildRes } = require('../../utils/response');
+const { buildRes } = require('../../helper/utils/response');
 const { Users } = require('../../models');
+const UserService = require('../../services/user_service');
 
 const router = express.Router();
 
@@ -52,22 +53,13 @@ router.post('/signup', [body('username').isString(), body('password')], async (r
   if (!errors.isEmpty()) {
     return buildRes(res, false, 'Invalid input');
   }
-  const { username, password } = req.body;
-  const user = await Users.findOne({ where: { username } });
-  if (user !== null) {
-    return buildRes(res, false, 'User exist');
-  }
+  const userDTO = req.body;
+
   try {
-    const salt = cryptoRandomString({ length: saltLength });
-    const hashedPassword = await bcrypt.hash(password + salt, parseInt(saltRounds, 10));
-    await Users.create({
-      username,
-      password: hashedPassword,
-      salt,
-    });
+    await UserService.signUp(userDTO);
     return buildRes(res, true, {});
   } catch (e) {
-    return buildRes(res, false, e);
+    return buildRes(res, false, e.toString());
   }
 });
 
