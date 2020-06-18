@@ -4,7 +4,7 @@ class ResponseException {
   }
 
   toString() {
-    return (this.message);
+    return (this.message.toString());
   }
 }
 
