@@ -1,10 +1,10 @@
 module.exports = [
-  // {
-  //   progressId: 1,
-  //   currentTime: 10000,
-  //   epId: 1,
-  //   userId: 1,
-  // },
+  {
+    progressId: 1,
+    currentTime: 10000,
+    epId: 1,
+    userId: 1,
+  },
   {
     progressId: 2,
     currentTime: 10000,

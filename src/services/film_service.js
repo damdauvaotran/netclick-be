@@ -46,7 +46,7 @@ const FilmService = {
     }
   },
 
-  async getFilmByIdWithProgress({ filmId, userId }) {
+  async getFilmByIdWithProgress(filmId, userId) {
     try {
       const filmInfo = await db.Films.findOne({
         where: {

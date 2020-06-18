@@ -20,12 +20,12 @@ app.set('view engine', 'pug');
 const logFile = fs.createWriteStream('./myLogFile.log', { flags: 'a' }); // us
 
 app.use(cors());
-app.use(logger('common', { stream: logFile }));
-// app.use(logger('dev'));
+// app.use(logger('common', { stream: logFile }));
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Docs
 app.use('/api/v1', swaggerUi.serve, swaggerUi.setup(swaggerSpec));

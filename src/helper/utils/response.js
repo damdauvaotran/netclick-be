@@ -6,6 +6,7 @@ const buildRes = (res, success, data) => {
       data,
     });
   }
+  console.error(data);
   return res.json({
     success,
     message: data,
