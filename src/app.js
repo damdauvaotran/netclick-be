@@ -9,6 +9,7 @@ const fs = require('fs');
 
 const indexRouter = require('./api/index');
 const swaggerSpec = require('../swagger');
+const httpLogger = require('./middleware/http_logger');
 
 const app = express();
 
@@ -17,11 +18,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 // Logger setup
-const logFile = fs.createWriteStream('./myLogFile.log', { flags: 'a' }); // us
+// const logFile = fs.createWriteStream('./myLogFile.log', { flags: 'a' }); // us
 
 app.use(cors());
-app.use(logger('common', { stream: logFile }));
-app.use(logger('dev'));
+// app.use(logger('common', { stream: logFile }));
+// app.use(logger('dev'));
+app.use(httpLogger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

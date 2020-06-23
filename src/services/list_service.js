@@ -1,5 +1,4 @@
-const { Op } = require('sequelize');
-const _ = require('lodash');
+const logger = require('../utils/logger');
 
 const db = require('../models');
 
@@ -76,8 +75,8 @@ const ListService = {
       }
       const [filmList, isCreate] = await db.FilmsLists.findOrCreate({
         where: {
-          filmId,
-          listId: userFavoriteList.listId,
+          film_id: filmId,
+          list_id: userFavoriteList.listId,
         },
       });
 
@@ -86,6 +85,7 @@ const ListService = {
       }
       throw new ResponseException('This film has add to list');
     } catch (e) {
+      logger.error(e);
       throw new ResponseException(e.toString());
     }
   },
