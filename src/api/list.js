@@ -46,5 +46,52 @@ router.get('/list', validateUser, async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ *
+ * /list/favorite:
+ *  get:
+ *    security:
+ *      - Bearer: []
+ *    summary: Get favorite list of user
+ *    description: Get the favorite list
+ *    tags:
+ *      - list
+ *    produces:
+ *      - application/json
+ *    responses:
+ *      '200':
+ *        description: OK
+ *        schema:
+ *          type: object
+ *          properties:
+ *            success:
+ *              type: boolean
+ *            data:
+ *              type: object
+ *              properties:
+ *                listId:
+ *                  type: integer
+ *                listName:
+ *                  type: string
+ *                favorite:
+ *                  type: boolean
+ *                userId:
+ *                  type: integer
+ *                films:
+ *                  type: array
+ *                  items:
+ *                    $ref: '#/definitions/Film'
+ */
 
+router.get('/list/favorite', validateUser, async (req, res) => {
+  try {
+    const token = getTokenByRequest(req);
+    const userId = await getUserIdByToken(token);
+    const favoriteList = await ListService.getFavoriteListByUser(userId);
+    return buildRes(res, true, favoriteList);
+  } catch (e) {
+    return buildRes(res, false, e.toString());
+  }
+});
 module.exports = router;

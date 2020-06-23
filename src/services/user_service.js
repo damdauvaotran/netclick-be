@@ -62,6 +62,26 @@ const UserService = {
       throw new ResponseException(e.toString());
     }
   },
+
+  async getUserInfo(userId) {
+    try {
+      const userInfo = await db.Users.findOne({
+        where: { userId },
+        include: [
+          {
+            model: db.Lists,
+            required: false,
+          },
+        ],
+      });
+      if (userInfo) {
+        return userInfo;
+      }
+      throw new ResponseException('User not exist');
+    } catch (e) {
+      throw new ResponseException(e.toString());
+    }
+  },
 };
 
 module.exports = UserService;

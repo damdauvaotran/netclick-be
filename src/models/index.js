@@ -15,7 +15,7 @@ const FilmCategoryModel = require('./many_to_many/films_categories_model');
 const FilmListModel = require('./many_to_many/films_lists_model');
 
 // Initial data for dev purpose
-const migrationFilmList = require('../mock/films_data');
+const migrationFilm = require('../mock/films_data');
 const migrationEpList = require('../mock/episode_data');
 const migrationProcess = require('../mock/progress_data');
 const migrationUser = require('../mock/user_data');
@@ -24,6 +24,7 @@ const migrationCategory = require('../mock/category_data');
 const migrationList = require('../mock/list_data');
 const migrationFilmActor = require('../mock/film_actor_data');
 const migrationFilmCategory = require('../mock/film_category_data');
+const migrationFilmList = require('../mock/film_list_data');
 
 
 const DATABASE_NAME = process.env.DATABASE_NAME || 'math_app';
@@ -105,7 +106,7 @@ db.sync({ force: true }).then(async () => {
   if (listFilm.length === 0) {
     console.log('Empty film list, Start migrate data');
     await Users.bulkCreate(migrationUser);
-    await Films.bulkCreate(migrationFilmList);
+    await Films.bulkCreate(migrationFilm);
     await Episodes.bulkCreate(migrationEpList);
     await Progresses.bulkCreate(migrationProcess);
     await Actors.bulkCreate(migrationActor);
@@ -113,11 +114,21 @@ db.sync({ force: true }).then(async () => {
     await Lists.bulkCreate(migrationList);
     await FilmsCategories.bulkCreate(migrationFilmCategory);
     await FilmsActors.bulkCreate(migrationFilmActor);
+    await FilmsLists.bulkCreate(migrationFilmList);
   } else {
     console.log('Db has exist, Migration canceled');
   }
 });
 
 module.exports = {
-  Users, Films, Episodes, Progresses, Actors, Categories, Lists,
+  Users,
+  Films,
+  Episodes,
+  Progresses,
+  Actors,
+  Categories,
+  Lists,
+  FilmsActors,
+  FilmsCategories,
+  FilmsLists,
 };

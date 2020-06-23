@@ -20,7 +20,7 @@ app.set('view engine', 'pug');
 const logFile = fs.createWriteStream('./myLogFile.log', { flags: 'a' }); // us
 
 app.use(cors());
-// app.use(logger('common', { stream: logFile }));
+app.use(logger('common', { stream: logFile }));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

@@ -18,6 +18,27 @@ const ListService = {
       throw new ResponseException(e.toString());
     }
   },
+
+  async getFavoriteListByUser(userId) {
+    try {
+      const favoriteList = await db.Lists.findOne({
+        where: {
+          userId,
+          favorite: true,
+        },
+        include: [{
+          model: db.Films,
+          required: false,
+        }],
+      });
+      if (favoriteList) {
+        return favoriteList;
+      }
+      throw new ResponseException('Favorite film not found');
+    } catch (e) {
+      throw new ResponseException(e.toString());
+    }
+  },
 };
 
 module.exports = ListService;

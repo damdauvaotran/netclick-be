@@ -1,37 +1,22 @@
 const express = require('express');
-const { Op, col } = require('sequelize');
 
 const router = express.Router();
 const { validateUser, getUserIdByToken, getTokenByRequest } = require('../helper/middleware/auth');
 const db = require('../models');
 const { buildRes } = require('../helper/utils/response');
-const ProgressService = require('../services/progress_service');
+const UserService = require('../services/user_service');
 
 /**
  * @swagger
  *
- * /progress/save:
- *  post:
+ * /user:
+ *  get:
  *    security:
  *      - Bearer: []
- *    summary: Save progress of episode
- *    description: Return progress
+ *    summary: Get user info
+ *    description: Return user info
  *    tags:
- *      - progress
- *    parameters:
- *      - in: body
- *        name: body
- *        required: true
- *        schema:
- *          type: object
- *          required:
- *          - epId
- *          - progress
- *          properties:
- *            epId:
- *              type: integer
- *            progress:
- *              type: integer
+ *      - user
  *    produces:
  *      - application/json
  *    responses:
@@ -44,15 +29,15 @@ const ProgressService = require('../services/progress_service');
  *              type: boolean
  *            data:
  *              type: object
+ *              $ref: '#/definitions/User'
  */
 
-router.post('/progress/save', validateUser, async (req, res) => {
-  const { epId, progress } = req.body;
+router.get('/user', validateUser, async (req, res) => {
   try {
     const token = getTokenByRequest(req);
     const userId = await getUserIdByToken(token);
-    const savedProgress = await ProgressService.saveProgress(epId, userId, progress);
-    return buildRes(res, true, savedProgress);
+    const userInfo = await UserService.getUserInfo(userId);
+    return buildRes(res, true, userInfo);
   } catch (e) {
     return buildRes(res, false, e.toString());
   }

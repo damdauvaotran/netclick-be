@@ -12,6 +12,10 @@ module.exports = (db, config) => db.define('list',
       type: type.STRING,
       allowNull: false,
     },
+    favorite: {
+      type: type.BOOLEAN,
+      defaultValue: false,
+    },
   },
   config);
 

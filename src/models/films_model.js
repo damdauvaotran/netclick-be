@@ -1,6 +1,6 @@
 const type = require('sequelize');
 
-module.exports = (db, config) => db.define('flims',
+module.exports = (db, config) => db.define('films',
   {
     filmId: {
       type: type.BIGINT,
