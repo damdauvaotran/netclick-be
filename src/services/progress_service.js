@@ -1,5 +1,5 @@
 const db = require('../models');
-const { ResponseException } = require('../helper/utils/exception');
+const { ResponseException } = require('../utils/exception');
 
 const ProgressService = {
   async saveProgress(epId, userId, progress) {

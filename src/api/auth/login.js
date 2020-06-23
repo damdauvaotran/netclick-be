@@ -1,7 +1,7 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 
-const { buildRes } = require('../../helper/utils/response');
+const { buildRes } = require('../../utils/response');
 const UserService = require('../../services/user_service');
 
 const router = express.Router();

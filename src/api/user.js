@@ -1,9 +1,9 @@
 const express = require('express');
 
 const router = express.Router();
-const { validateUser, getUserIdByToken, getTokenByRequest } = require('../helper/middleware/auth');
+const { validateUser, getUserIdByToken, getTokenByRequest } = require('../middleware/auth');
 const db = require('../models');
-const { buildRes } = require('../helper/utils/response');
+const { buildRes } = require('../utils/response');
 const UserService = require('../services/user_service');
 
 /**

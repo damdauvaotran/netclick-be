@@ -3,7 +3,7 @@ const _ = require('lodash');
 
 const db = require('../models');
 
-const { ResponseException } = require('../helper/utils/exception');
+const { ResponseException } = require('../utils/exception');
 
 const FilmService = {
   async searchFilmByQuery(query) {

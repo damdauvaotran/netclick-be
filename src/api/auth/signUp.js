@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const cryptoRandomString = require('crypto-random-string');
 const { body, validationResult } = require('express-validator');
-const { buildRes } = require('../../helper/utils/response');
+const { buildRes } = require('../../utils/response');
 const { Users } = require('../../models');
 const UserService = require('../../services/user_service');
 

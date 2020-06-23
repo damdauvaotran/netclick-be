@@ -2,9 +2,9 @@ const express = require('express');
 const { Op, col } = require('sequelize');
 
 const router = express.Router();
-const { validateUser, getUserIdByToken, getTokenByRequest } = require('../helper/middleware/auth');
+const { validateUser, getUserIdByToken, getTokenByRequest } = require('../middleware/auth');
 const db = require('../models');
-const { buildRes } = require('../helper/utils/response');
+const { buildRes } = require('../utils/response');
 const ProgressService = require('../services/progress_service');
 
 /**

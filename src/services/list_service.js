@@ -3,7 +3,7 @@ const _ = require('lodash');
 
 const db = require('../models');
 
-const { ResponseException } = require('../helper/utils/exception');
+const { ResponseException } = require('../utils/exception');
 
 const ListService = {
   async getListByUser(userId) {
@@ -80,6 +80,7 @@ const ListService = {
           listId: userFavoriteList.listId,
         },
       });
+
       if (isCreate) {
         return filmList;
       }

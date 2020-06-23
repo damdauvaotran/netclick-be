@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../models');
 
-const { ResponseException } = require('../helper/utils/exception');
+const { ResponseException } = require('../utils/exception');
 
 const saltRounds = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS, 10) : 10;
 const saltLength = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_LENGTH, 10) : 14;

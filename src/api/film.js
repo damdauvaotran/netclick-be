@@ -1,7 +1,7 @@
 const express = require('express');
 
-const { validateUser, getUserIdByToken, getTokenByRequest } = require('../helper/middleware/auth');
-const { buildRes } = require('../helper/utils/response');
+const { validateUser, getUserIdByToken, getTokenByRequest } = require('../middleware/auth');
+const { buildRes } = require('../utils/response');
 const FilmService = require('../services/film_service');
 
 const router = express.Router();
