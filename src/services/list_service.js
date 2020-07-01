@@ -89,6 +89,30 @@ const ListService = {
       throw new ResponseException(e.toString());
     }
   },
+
+  async removeFromFavorite(filmId, userId) {
+    try {
+      let userFavoriteList = await db.Lists.findOne({
+        where: {
+          userId,
+          favorite: true,
+        },
+      });
+      if (!userFavoriteList) {
+        userFavoriteList = await this.createdFavoriteList(userId);
+      }
+      const filmList = await db.FilmsLists.delete({
+        where: {
+          film_id: filmId,
+          list_id: userFavoriteList.listId,
+        },
+      });
+
+      return filmList;
+    } catch (e) {
+      throw new ResponseException(e.toString());
+    }
+  },
 };
 
 module.exports = ListService;

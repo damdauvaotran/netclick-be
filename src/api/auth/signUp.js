@@ -48,7 +48,7 @@ const saltLength = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_LENGTH, 1
  *              type: string
  */
 
-router.post('/signup', [body('username').isString(), body('password')], async (req, res) => {
+router.post('/signup', async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return buildRes(res, false, 'Invalid input');

@@ -44,9 +44,7 @@ const router = express.Router();
  */
 
 router.post(
-  '/login',
-  [body('username').isString(), body('password').isString()],
-  async (req, res) => {
+  '/login', async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return buildRes(res, false, 'Invalid input');

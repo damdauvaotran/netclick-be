@@ -185,4 +185,57 @@ router.post('/list/favorite/add', validateUser, async (req, res) => {
     return buildRes(res, false, e.toString());
   }
 });
+
+/**
+ * @swagger
+ *
+ * /list/favorite/remove:
+ *  post:
+ *    security:
+ *      - Bearer: []
+ *    summary: Remove film from favorite list of user
+ *    description: Remove film from favorite list of the owner of the token
+ *    tags:
+ *      - list
+ *    produces:
+ *      - application/json
+ *    parameters:
+ *      - in: body
+ *        name: body
+ *        required: true
+ *        schema:
+ *          type: object
+ *          required:
+ *            - filmId
+ *          properties:
+ *            filmId:
+ *              type: string
+ *    responses:
+ *      '200':
+ *        description: OK
+ *        schema:
+ *          type: object
+ *          properties:
+ *            success:
+ *              type: boolean
+ *            data:
+ *              type: object
+ *              properties:
+ *                listId:
+ *                  type: integer
+ *                filmId:
+ *                  type: integer
+ */
+
+router.post('/list/favorite/remove', validateUser, async (req, res) => {
+  try {
+    const token = getTokenByRequest(req);
+    const userId = await getUserIdByToken(token);
+    const { filmId } = req.body;
+    const filmList = await ListService.removeFromFavorite(filmId, userId);
+    return buildRes(res, true, filmList);
+  } catch (e) {
+    return buildRes(res, false, e.toString());
+  }
+});
 module.exports = router;

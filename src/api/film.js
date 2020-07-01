@@ -68,15 +68,10 @@ router.get('/film/:filmId', async (req, res) => {
  *          type: string
  *        description: Name of the film
  *      - in: query
- *        name: year
- *        schema:
- *          type: int
- *        description: Year of the film
- *      - in: query
- *        name: starring
+ *        name: category
  *        schema:
  *          type: string
- *        description: Starring of the film
+ *        description: category
  *    produces:
  *      - application/json
  *    responses:
