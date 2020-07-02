@@ -4,20 +4,21 @@ module.exports = {
     es6: true,
     jest: true
   },
-  extends: ["airbnb-base"],
+  extends: ['airbnb-base'],
   globals: {
-    Atomics: "readonly",
-    SharedArrayBuffer: "readonly"
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly'
   },
   parserOptions: {
     ecmaVersion: 2018,
-    sourceType: "module"
+    sourceType: 'module'
   },
   rules: {
-    "no-await-in-loop": "off",
-    "no-restricted-syntax": "off",
-    "no-console": "off",
-    quotes: [2, "single", { avoidEscape: false, allowTemplateLiterals: true }],
-    "comma-dangle": [2, "always-multiline"]
+    'no-await-in-loop': 'off',
+    'no-restricted-syntax': 'off',
+    'no-console': 'off',
+    'no-unused-vars': ['warn', {vars: 'local'}],
+    quotes: ['error', 'single', { avoidEscape: false, allowTemplateLiterals: true }],
+    'comma-dangle': ['error', 'always-multiline']
   }
 };

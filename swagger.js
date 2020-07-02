@@ -2,7 +2,7 @@ const swaggerJsdoc = require('swagger-jsdoc');
 
 const options = {
   // List of files to be processed.
-  apis: ['./routes/**/*.js', './models/**/*.js'],
+  apis: ['./src/api/**/*.js', './src/models/**/*.js'],
   basePath: '/api/v1',
   swaggerDefinition: {
     info: {
@@ -10,6 +10,13 @@ const options = {
       swagger: '2.0',
       title: 'Todo API',
       version: '1.0.0',
+    },
+    securityDefinitions: {
+      Bearer: {
+        type: 'apiKey',
+        name: 'Authorization',
+        in: 'header',
+      },
     },
   },
 };

@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+// #!/usr/bin/env node
 
 /**
  * Module dependencies.
@@ -6,7 +6,7 @@
 
 const debug = require('debug')('a:server');
 const http = require('http');
-const app = require('./app');
+const app = require('./src/app');
 
 require('dotenv').config({ path: '.env' });
 
