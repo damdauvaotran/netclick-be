@@ -97,7 +97,7 @@ Lists.belongsToMany(Films, { through: FilmsLists, foreignKey: 'list_id' });
 Films.belongsToMany(Lists, { through: FilmsLists, foreignKey: 'film_id' });
 
 
-db.sync({ force: true }).then(async () => {
+db.sync({ force: false }).then(async () => {
   console.log('Database & tables created!');
   const listFilm = await Films.findAll();
 

@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../models');
 
 const { ResponseException } = require('../utils/exception');
+const ListService = require('./list_service');
 
 const saltRounds = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS, 10) : 10;
 const saltLength = process.env.SALT_ROUNDS ? parseInt(process.env.SALT_LENGTH, 10) : 14;
@@ -19,11 +20,12 @@ const UserService = {
     try {
       const salt = cryptoRandomString({ length: saltLength });
       const hashedPassword = await bcrypt.hash(password + salt, parseInt(saltRounds, 10));
-      await db.Users.create({
+      const createdUser = await db.Users.create({
         username,
         password: hashedPassword,
         salt,
       });
+      ListService.createFavoriteList(createdUser.userId);
       return { username };
     } catch (e) {
       throw new ResponseException(e.toString());

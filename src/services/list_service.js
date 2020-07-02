@@ -20,7 +20,7 @@ const ListService = {
 
   async getFavoriteListByUser(userId) {
     try {
-      const favoriteList = await db.Lists.findOne({
+      let favoriteList = await db.Lists.findOne({
         where: {
           userId,
           favorite: true,
@@ -30,10 +30,10 @@ const ListService = {
           required: false,
         }],
       });
-      if (favoriteList) {
-        return favoriteList;
+      if (!favoriteList) {
+        favoriteList = await this.createFavoriteList(userId);
       }
-      throw new ResponseException('Favorite film not found');
+      return favoriteList;
     } catch (e) {
       throw new ResponseException(e.toString());
     }
