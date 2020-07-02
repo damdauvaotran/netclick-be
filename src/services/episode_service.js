@@ -28,20 +28,16 @@ const EpisodeService = {
   },
 
   async getEpFileById(epId) {
-    try {
-      const episode = await db.Episodes.findOne({
-        where: {
-          episodeId: epId,
-        },
-      });
-      if (episode) {
-        const { uri } = episode;
-        return `./resources/movies/${uri}.mp4`;
-      }
-      throw new ResponseException('Episode not found');
-    } catch (e) {
-      throw new ResponseException(e.toString());
+    const episode = await db.Episodes.findOne({
+      where: {
+        epId,
+      },
+    });
+    if (episode) {
+      const { uri } = episode;
+      return `./public/movies/${uri}.mp4`;
     }
+    throw new ResponseException('Episode not found');
   },
 };
 

@@ -89,4 +89,13 @@ module.exports = [
     epNum: 10,
     filmId: 1,
   },
+  {
+    epId: 11,
+    name: 'First come',
+    description: 'The North secedes from the Seven Kingdoms and proclaims Robb as their king. With Jaime captured by the Starks and Robert\'s brothers challenging Joffrey\'s claim to the throne, Tywin appoints Tyrion as acting King\'s Hand, while Tywin fights to defend Joffrey\'s reign. Jon considers deserting his post at the Wall to avenge Ned and support Robb, but his friends convince him to honor his oath and stay. Jon joins a Night\'s Watch expedition to find Benjen beyond the Wall. Yoren, a Night\'s Watch recruiter, helps Arya escape King\'s Landing disguised as a boy, while Joffrey plans to make Sansa his queen despite her father\'s execution. Daenerys\'s baby is dead, and Drogo has been left in a vegetative state by the witch\'s treacherous magic. Daenerys ends Drogo\'s life. She places her three dragon eggs next to Drogo and lights a funeral pyre. She burns the witch alive on Drogo\'s pyre and, ignoring Jorah\'s pleas, walks into the flames herself. When the embers die the following morning, Daenerys is found, unharmed, flanked by three newly hatched baby dragons. Jorah and other witnesses kneel before her.',
+    uri: 'TEOTFW1',
+    duration: 3157495,
+    epNum: 1,
+    filmId: 2,
+  },
 ];

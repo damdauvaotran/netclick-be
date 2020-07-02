@@ -2,6 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
+const { createLogger } = require('winston');
 const { validateUser, getTokenByRequest, getUserIdByToken } = require('../middleware/auth');
 const db = require('../models');
 const { buildRes } = require('../utils/response');
@@ -22,7 +23,7 @@ const EpisodeService = require('../services/episode_service');
  *      - application/json
  *    parameters:
  *      - in: path
- *        name: filmId
+ *        name: episodeId
  *        schema:
  *          type: integer
  *        required: true
@@ -39,10 +40,10 @@ const EpisodeService = require('../services/episode_service');
  */
 
 
-router.get('/episode/watch/:episodeId', validateUser, async (req, res) => {
+router.get('/episode/watch/:episodeId', async (req, res) => {
   try {
-    const { episodeId } = req;
-
+    const episodeId = parseInt(req.params.episodeId, 10);
+    console.log(episodeId);
     const file = await EpisodeService.getEpFileById(episodeId);
     return res.download(file);
   } catch (e) {

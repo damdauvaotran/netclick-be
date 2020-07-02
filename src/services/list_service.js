@@ -101,7 +101,7 @@ const ListService = {
       if (!userFavoriteList) {
         userFavoriteList = await this.createdFavoriteList(userId);
       }
-      const filmList = await db.FilmsLists.delete({
+      const filmList = await db.FilmsLists.destroy({
         where: {
           film_id: filmId,
           list_id: userFavoriteList.listId,

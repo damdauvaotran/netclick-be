@@ -30,12 +30,11 @@ const FilmService = {
             name: {
               [Op.substring]: name,
             },
-
           },
           include: [
             {
               model: db.Actors,
-              required: false,
+              required: true,
               through: { attributes: [] },
             },
             {
