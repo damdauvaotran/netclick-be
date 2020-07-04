@@ -4,9 +4,9 @@ const router = express.Router();
 
 const { createLogger } = require('winston');
 const { validateUser, getTokenByRequest, getUserIdByToken } = require('../middleware/auth');
-const db = require('../main/models');
-const { buildRes } = require('../main/utils/response');
-const EpisodeService = require('../main/services/episode_service');
+const db = require('../models');
+const { buildRes } = require('../utils/response');
+const EpisodeService = require('../services/episode_service');
 
 /**
  * @swagger
