@@ -8,7 +8,7 @@ const cors = require('cors');
 const fs = require('fs');
 
 const indexRouter = require('./api/index');
-const swaggerSpec = require('../swagger');
+const swaggerSpec = require('../../swagger');
 const httpLogger = require('./middleware/http_logger');
 
 const app = express();

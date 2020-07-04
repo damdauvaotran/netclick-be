@@ -3,10 +3,10 @@ const { Op, col } = require('sequelize');
 
 const router = express.Router();
 const { validateUser, getUserIdByToken, getTokenByRequest } = require('../middleware/auth');
-const db = require('../main/models');
-const { buildRes } = require('../main/utils/response');
-const ListService = require('../main/services/list_service');
-const lists_model = require('../main/models/lists_model');
+const db = require('../models');
+const { buildRes } = require('../utils/response');
+const ListService = require('../services/list_service');
+const lists_model = require('../models/lists_model');
 
 /**
  * @swagger
