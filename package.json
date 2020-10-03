@@ -12,7 +12,7 @@
     "build": "rm -rf dist && webpack --mode development"
   },
   "dependencies": {
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^5.0.0",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.5",
     "crypto-random-string": "^3.2.0",
