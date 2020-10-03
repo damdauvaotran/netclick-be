@@ -6,7 +6,7 @@
 
 const debug = require('debug')('a:server');
 const http = require('http');
-const app = require('./src/app');
+const app = require('./src/main/app');
 
 require('dotenv').config({ path: '.env' });
 

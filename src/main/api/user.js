@@ -2,9 +2,9 @@ const express = require('express');
 
 const router = express.Router();
 const { validateUser, getUserIdByToken, getTokenByRequest } = require('../middleware/auth');
-const db = require('../main/models');
-const { buildRes } = require('../main/utils/response');
-const UserService = require('../main/services/user_service');
+const db = require('../models');
+const { buildRes } = require('../utils/response');
+const UserService = require('../services/user_service');
 
 /**
  * @swagger
